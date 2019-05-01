@@ -18,6 +18,7 @@ import Enriqueta from './assets/fonts/Enriqueta-Regular.ttf';
 import Roboto from './assets/fonts/Roboto-Regular.ttf';
 import AvenirNext from './assets/fonts/AvenirNextLTPro-Regular.otf';
 import AvenirNextBold from './assets/fonts/AvenirNextLTPro-Bold.otf';
+import NotoSans from './assets/fonts/NotoSans-Regular.ttf';
 import theme from './constants/theme';
 
 export default class App extends React.Component {
@@ -42,6 +43,7 @@ export default class App extends React.Component {
         roboto: Roboto,
         'avenir-next': AvenirNext,
         'avenir-next-bold': AvenirNextBold,
+        notosans: NotoSans,
       }),
     ]);
 

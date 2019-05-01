@@ -12,9 +12,11 @@ import styled from 'styled-components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
+import moment from 'moment';
 
 import { HomeContainer } from './Home';
 import AntDesignIcon from '../components/AntDesignIcon';
+import EvilIcon from '../components/EvilIcon';
 import Layout from '../constants/Layout';
 import { addActivity } from '../actions';
 
@@ -47,7 +49,7 @@ const TextInputContainer = styled.TextInput`
   color: #000;
   text-align: left;
   font-size: ${props => props.fontSize || 26};
-  font-family: 'avenir-next';
+  font-family: 'notosans';
 `;
 
 class NewActivity extends React.Component {
@@ -58,6 +60,7 @@ class NewActivity extends React.Component {
     isDateTimePickerVisible: true,
     isFocused: false,
     visible: false,
+    message: '',
   };
 
   showDateTimePicker = () => {
@@ -69,23 +72,43 @@ class NewActivity extends React.Component {
   };
 
   handleDatePicked = time => {
-    this.setState({ time });
-    this.hideDateTimePicker();
+    const { data } = this.props;
+    if (
+      data.data[moment(time).format('YYYY/MM/DD')] &&
+      data.data[moment(time).format('YYYY/MM/DD')].activities.filter(
+        activity => activity.time === moment(time).format('HH:mm')
+      ).length > 0
+    ) {
+      const act = data.data[
+        moment(time).format('YYYY/MM/DD')
+      ].activities.filter(
+        activity => activity.time === moment(time).format('HH:mm')
+      )[0];
+      this._showDialog(
+        `In ${moment(time).format('HH:mm')} you are stuck in with "${
+          act.title
+        }"`
+      );
+      this.hideDateTimePicker();
+    } else {
+      this.setState({ time });
+      this.hideDateTimePicker();
+    }
   };
 
   done = () => {
     const { title, description, time } = this.state;
     if (time === '') {
       this.showDateTimePicker();
-    } else if (title !== '' && description !== '' && time !== '') {
+    } else if (title !== '' && time !== '') {
       this.props.addActivity({ title, description, time });
       this.props.navigation.navigate('Activity');
     } else {
-      this._showDialog();
+      this._showDialog('Please fulfill all information');
     }
   };
 
-  _showDialog = () => this.setState({ visible: true });
+  _showDialog = message => this.setState({ visible: true, message });
 
   _hideDialog = () => this.setState({ visible: false });
 
@@ -96,6 +119,7 @@ class NewActivity extends React.Component {
       isDateTimePickerVisible,
       isFocused,
       visible,
+      message,
     } = this.state;
     const { navigation } = this.props;
     return (
@@ -112,7 +136,7 @@ class NewActivity extends React.Component {
           <Dialog visible={visible} onDismiss={this._hideDialog}>
             <Dialog.Title>Message</Dialog.Title>
             <Dialog.Content>
-              <Paragraph>Please fulfill all information</Paragraph>
+              <Paragraph>{message}</Paragraph>
             </Dialog.Content>
             <Dialog.Actions>
               <Button onPress={this._hideDialog}>Done</Button>
@@ -134,9 +158,22 @@ class NewActivity extends React.Component {
             >
               <AntDesignIcon name="left" size={26} color="#9EA2A7" />
             </TouchableHighlight>
-            <TouchableHighlight onPress={this.done} underlayColor="#fff">
-              <AntDesignIcon name="checksquareo" size={30} color="#9EA2A7" />
-            </TouchableHighlight>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <TouchableHighlight
+                onPress={this.showDateTimePicker}
+                underlayColor="#fff"
+              >
+                <EvilIcon name="clock" size={40} color="#9EA2A7" />
+              </TouchableHighlight>
+              <TouchableHighlight onPress={this.done} underlayColor="#fff">
+                <AntDesignIcon name="checksquareo" size={30} color="#9EA2A7" />
+              </TouchableHighlight>
+            </View>
           </TitleBar>
           <ScrollView>
             <Content>

@@ -124,7 +124,7 @@ class Home extends React.Component {
             }}
             descriptionStyle={{
               color: 'gray',
-              fontFamily: 'avenir-next',
+              fontFamily: 'notosans',
               fontSize: 18,
               paddingBottom: 10,
               paddingRight: 10,
@@ -134,7 +134,7 @@ class Home extends React.Component {
               style: { paddingTop: 5 },
             }}
             titleStyle={{
-              fontFamily: 'avenir-next',
+              fontFamily: 'notosans',
               fontSize: 25,
               marginTop: -10,
               // textAlign: 'right',
