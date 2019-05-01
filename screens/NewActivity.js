@@ -156,7 +156,7 @@ class NewActivity extends React.Component {
               onPress={() => navigation.navigate('Activity')}
               underlayColor="#fff"
             >
-              <AntDesignIcon name="left" size={26} color="#9EA2A7" />
+              <EvilIcon name="arrow-left" size={40} color="#9EA2A7" />
             </TouchableHighlight>
             <View
               style={{
@@ -171,7 +171,7 @@ class NewActivity extends React.Component {
                 <EvilIcon name="clock" size={40} color="#9EA2A7" />
               </TouchableHighlight>
               <TouchableHighlight onPress={this.done} underlayColor="#fff">
-                <AntDesignIcon name="checksquareo" size={30} color="#9EA2A7" />
+                <EvilIcon name="check" size={40} color="#9EA2A7" />
               </TouchableHighlight>
             </View>
           </TitleBar>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableHighlight, Image } from 'react-native';
 import styled from 'styled-components';
 import Timeline from 'react-native-timeline-listview';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import Layout from '../constants/Layout';
 import AntDesignIcon from '../components/AntDesignIcon';
 import { addActivity } from '../actions';
+import Empty from '../assets/empty.png';
 
 const { deviceWidth, deviceHeight } = Layout;
 
@@ -89,7 +90,18 @@ class Home extends React.Component {
         <TitleBar>
           <Title>ACTIVITIES</Title>
         </TitleBar>
-        {data.data[date.format('YYYY/MM/DD')] === undefined ? null : (
+        {data.data[date.format('YYYY/MM/DD')] === undefined ? (
+          <Image
+            style={{
+              position: 'absolute',
+              top: 50,
+              left: 0,
+              width: deviceWidth,
+              height: deviceHeight - 100,
+            }}
+            source={Empty}
+          />
+        ) : (
           <Timeline
             // data={data.data['2019/01/01'].activities}
             data={[
@@ -136,7 +148,7 @@ class Home extends React.Component {
             titleStyle={{
               fontFamily: 'notosans',
               fontSize: 25,
-              marginTop: -10,
+              marginTop: -18,
               // textAlign: 'right',
             }}
             onEventPress={e => console.log(e)}
