@@ -4,6 +4,7 @@ import { StyleSheet, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import store, { persistor } from './store';
 import AppNavigator from './navigations/AppNavigator';
@@ -17,6 +18,7 @@ import Enriqueta from './assets/fonts/Enriqueta-Regular.ttf';
 import Roboto from './assets/fonts/Roboto-Regular.ttf';
 import AvenirNext from './assets/fonts/AvenirNextLTPro-Regular.otf';
 import AvenirNextBold from './assets/fonts/AvenirNextLTPro-Bold.otf';
+import theme from './constants/theme';
 
 export default class App extends React.Component {
   state = {
@@ -68,8 +70,10 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <StatusBar hidden />
-          <AppNavigator />
+          <PaperProvider theme={theme}>
+            <StatusBar hidden />
+            <AppNavigator />
+          </PaperProvider>
         </PersistGate>
       </Provider>
     );

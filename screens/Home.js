@@ -24,6 +24,7 @@ export const TitleBar = styled.View`
   background-color: #fff;
   width: ${deviceWidth};
   padding-top: 20;
+  padding-bottom: 10;
   height: 50;
   justify-content: center;
   align-items: center;
@@ -40,7 +41,7 @@ export const DateBar = styled.View`
 `;
 const Title = styled.Text`
   font-size: 26;
-  color: #000;
+  color: ${props => props.color || '#000'};
   font-family: 'avenir-next';
 `;
 
@@ -71,7 +72,9 @@ class Home extends React.Component {
   render() {
     const { data } = this.props;
     const { isDateTimePickerVisible, date } = this.state;
-    const nextActivity = {};
+    const nextActivity = {
+      description: '                                                    ',
+    };
     return (
       <HomeContainer>
         <DateTimePicker
@@ -93,13 +96,15 @@ class Home extends React.Component {
               ...data.data[date.format('YYYY/MM/DD')].activities,
               nextActivity,
             ]}
+            // columnFormat="two-column"
+            // columnFormat="single-column-right"
             circleSize={20}
             innerCircle="dot"
             // separator
-            circleColor="rgb(45,156,219)"
-            lineColor="rgb(45,156,219)"
+            circleColor="#EC5D57"
+            lineColor="#7A7A7A"
             style={{
-              paddingTop: 0,
+              paddingTop: 10,
               padding: 20,
               paddingBottom: 50,
             }}
@@ -113,23 +118,28 @@ class Home extends React.Component {
               textAlign: 'center',
               color: '#EC5D57',
               padding: 2,
-              marginTop: 5,
-              fontFamily: 'avenir-next-bold',
-              fontSize: 18,
+              marginTop: 3,
+              fontFamily: 'avenir-next',
+              fontSize: 25,
             }}
             descriptionStyle={{
               color: 'gray',
               fontFamily: 'avenir-next',
-              fontSize: 15,
+              fontSize: 18,
+              paddingBottom: 10,
+              paddingRight: 10,
+              // textAlign: 'right',
             }}
             options={{
               style: { paddingTop: 5 },
             }}
             titleStyle={{
-              fontFamily: 'avenir-next-bold',
-              fontSize: 18,
-              marginTop: -8,
+              fontFamily: 'avenir-next',
+              fontSize: 25,
+              marginTop: -10,
+              // textAlign: 'right',
             }}
+            onEventPress={e => console.log(e)}
           />
         )}
         <DateBar>
@@ -137,7 +147,7 @@ class Home extends React.Component {
             underlayColor="#fff"
             onPress={this.showDateTimePicker}
           >
-            <Title>{date.format('YYYY/MM/DD')}</Title>
+            <Title color="#000">{date.format('YYYY/MM/DD')}</Title>
           </TouchableHighlight>
         </DateBar>
         <FAB

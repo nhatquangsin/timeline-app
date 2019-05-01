@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
+import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
 import { HomeContainer } from './Home';
 import AntDesignIcon from '../components/AntDesignIcon';
@@ -40,6 +41,7 @@ const Content = styled.View`
 
 const TextInputContainer = styled.TextInput`
   padding-left: 20px;
+  padding-right: 20px;
   height: ${props => props.height || 60};
   width: ${deviceWidth};
   color: #000;
@@ -55,6 +57,7 @@ class NewActivity extends React.Component {
     time: '',
     isDateTimePickerVisible: true,
     isFocused: false,
+    visible: false,
   };
 
   showDateTimePicker = () => {
@@ -72,9 +75,19 @@ class NewActivity extends React.Component {
 
   done = () => {
     const { title, description, time } = this.state;
-    this.props.addActivity({ title, description, time });
-    this.props.navigation.navigate('Activity');
+    if (time === '') {
+      this.showDateTimePicker();
+    } else if (title !== '' && description !== '' && time !== '') {
+      this.props.addActivity({ title, description, time });
+      this.props.navigation.navigate('Activity');
+    } else {
+      this._showDialog();
+    }
   };
+
+  _showDialog = () => this.setState({ visible: true });
+
+  _hideDialog = () => this.setState({ visible: false });
 
   render() {
     const {
@@ -82,6 +95,7 @@ class NewActivity extends React.Component {
       description,
       isDateTimePickerVisible,
       isFocused,
+      visible,
     } = this.state;
     const { navigation } = this.props;
     return (
@@ -94,6 +108,17 @@ class NewActivity extends React.Component {
           titleIOS="Activity time"
           titleStyle={{ fontSize: 18 }}
         />
+        <Portal>
+          <Dialog visible={visible} onDismiss={this._hideDialog}>
+            <Dialog.Title>Message</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>Please fulfill all information</Paragraph>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={this._hideDialog}>Done</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
         <KeyboardAvoidingView
           behavior="padding"
           style={{
