@@ -13,6 +13,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { connect } from 'react-redux';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import moment from 'moment';
+import { Notifications } from 'expo';
 
 import { HomeContainer } from './Home';
 import AntDesignIcon from '../components/AntDesignIcon';
@@ -96,11 +97,28 @@ class NewActivity extends React.Component {
     }
   };
 
-  done = () => {
+  done = async () => {
     const { title, description, time } = this.state;
     if (time === '') {
       this.showDateTimePicker();
     } else if (title !== '' && time !== '') {
+      const localnotification = {
+        title: 'Workout time!',
+        body: `${title} - ${description}`,
+        android: {
+          sound: true,
+        },
+        ios: {
+          sound: true,
+        },
+      };
+      if (moment(time).diff(moment().toDate()) > 0) {
+        const schedulingOptions = { time: moment(time).toDate() };
+        await Notifications.scheduleLocalNotificationAsync(
+          localnotification,
+          schedulingOptions
+        );
+      }
       this.props.addActivity({ title, description, time });
       this.props.navigation.navigate('Activity');
     } else {

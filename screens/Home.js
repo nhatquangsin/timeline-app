@@ -8,7 +8,7 @@ import { FAB } from 'react-native-paper';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import Layout from '../constants/Layout';
-import AntDesignIcon from '../components/AntDesignIcon';
+import EvilIcon from '../components/EvilIcon';
 import { addActivity } from '../actions';
 import Empty from '../assets/empty.png';
 
@@ -23,11 +23,13 @@ export const HomeContainer = styled.View`
 
 export const TitleBar = styled.View`
   background-color: #fff;
+  flex-direction: row;
   width: ${deviceWidth};
-  padding-top: 20;
-  padding-bottom: 10;
+  padding: 10px;
+  padding-top: 10;
+  padding-bottom: 0;
   height: 50;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 export const DateBar = styled.View`
@@ -42,6 +44,7 @@ export const DateBar = styled.View`
 `;
 const Title = styled.Text`
   font-size: 26;
+  padding: 10px;
   color: ${props => props.color || '#000'};
   font-family: 'avenir-next';
 `;
@@ -71,7 +74,7 @@ class Home extends React.Component {
   };
 
   render() {
-    const { data } = this.props;
+    const { data, navigation } = this.props;
     const { isDateTimePickerVisible, date } = this.state;
     const nextActivity = {
       description: '                                                    ',
@@ -88,7 +91,16 @@ class Home extends React.Component {
           date={date.toDate()}
         />
         <TitleBar>
+          <TouchableHighlight
+            underlayColor="#fff"
+            onPress={() => navigation.openDrawer()}
+          >
+            <EvilIcon name="navicon" size={30} color="#9EA2A7" />
+          </TouchableHighlight>
           <Title>ACTIVITIES</Title>
+          <TouchableHighlight underlayColor="#fff">
+            <EvilIcon name="paperclip" size={30} color="#9EA2A7" />
+          </TouchableHighlight>
         </TitleBar>
         {data.data[date.format('YYYY/MM/DD')] === undefined ? (
           <Image

@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AppLoading, Asset, Font, Icon, Permissions } from 'expo';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import store, { persistor } from './store';
@@ -24,6 +24,10 @@ import theme from './constants/theme';
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+  };
+
+  componentDidMount = async () => {
+    await Permissions.askAsync(Permissions.NOTIFICATIONS);
   };
 
   _loadResourcesAsync = async () =>
