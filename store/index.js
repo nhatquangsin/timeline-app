@@ -9,7 +9,7 @@ import reducers from '../reducers';
 const persistConfig = {
   key: 'time8',
   storage: AsyncStorage,
-  whitelist: ['data'],
+  whitelist: ['data', 'user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

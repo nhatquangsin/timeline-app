@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { AppLoading, Asset, Font, Icon, Permissions } from 'expo';
 import { Provider as PaperProvider } from 'react-native-paper';
 
+import { MessageProvider } from './contexts/MessageContext';
 import store, { persistor } from './store';
 import AppNavigator from './navigations/AppNavigator';
 import font from './assets/fonts/Pacifico-Regular.ttf';
@@ -76,10 +77,12 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <PaperProvider theme={theme}>
-            <StatusBar hidden />
-            <AppNavigator />
-          </PaperProvider>
+          <MessageProvider>
+            <PaperProvider theme={theme}>
+              <StatusBar hidden />
+              <AppNavigator />
+            </PaperProvider>
+          </MessageProvider>
         </PersistGate>
       </Provider>
     );

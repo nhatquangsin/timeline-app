@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import moment from 'moment';
+
 import { ADD_ACTIVITY } from '../actions';
+import user from './user';
 
 const INIT_STATE = {
   data: {
@@ -78,6 +80,8 @@ const data = (state = INIT_STATE, action) => {
       return state;
   }
 };
+
 export default combineReducers({
   data,
+  user,
 });

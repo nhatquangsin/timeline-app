@@ -40,7 +40,8 @@ export const DateBar = styled.View`
   height: 50;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 0px;
+  padding-bottom: 10px;
 `;
 const Title = styled.Text`
   font-size: 26;
