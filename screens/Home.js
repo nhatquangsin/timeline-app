@@ -116,7 +116,6 @@ class Home extends React.Component {
           />
         ) : (
           <Timeline
-            // data={data.data['2019/01/01'].activities}
             data={[
               ...data.data[date.format('YYYY/MM/DD')].activities,
               nextActivity,

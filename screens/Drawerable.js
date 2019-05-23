@@ -70,24 +70,26 @@ class Drawerable extends React.Component {
           'https://images.unsplash.com/photo-1556787713-c4af300bbf6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
       },
     ];
-    const response = await fetch(
-      `https://graph.facebook.com/me/friends?access_token=${info.token}`
-    );
-    const data = await response.json();
-    await data.data.forEach(async item => {
-      const itemRes = await fetch(
-        `https://graph.facebook.com/${item.id}/picture?type=large`
+    if (info) {
+      const response = await fetch(
+        `https://graph.facebook.com/me/friends?access_token=${info.token}`
       );
-      const itemData = await itemRes;
-      this.friends = [
-        ...this.friends,
-        {
-          id: item.id,
-          name: item.name,
-          pictureUrl: itemData.url,
-        },
-      ];
-    });
+      const data = await response.json();
+      await data.data.forEach(async item => {
+        const itemRes = await fetch(
+          `https://graph.facebook.com/${item.id}/picture?type=large`
+        );
+        const itemData = await itemRes;
+        this.friends = [
+          ...this.friends,
+          {
+            id: item.id,
+            name: item.name,
+            pictureUrl: itemData.url,
+          },
+        ];
+      });
+    }
   };
 
   handleFacebookLogin = async showMessage => {
